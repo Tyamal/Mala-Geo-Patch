@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mala Geo Patch</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: {lat: -6.200000, lng: 106.816666} // Pusat peta
+            });
+
+            // Ambil data lokasi dari API
+            fetch('get_locations.php')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(location => {
+                        var marker = new google.maps.Marker({
+                            position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)},
+                            map: map,
+                            title: location.name
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <h1>Mala Geo Patch</h1>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+</body>
+</html>
